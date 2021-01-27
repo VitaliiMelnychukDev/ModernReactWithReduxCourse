@@ -1,24 +1,15 @@
-// Import the React and ReactDOM libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+class App extends React.Component {
+  render() {
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => console.log(position),
+      (err) => console.log(err)
+    );
 
-// Create e react component
-const App = () => {
-  const button = { text: 'Click Me!'};
-  const labelText = 'Enter Name:';
+    return <div>Latitude: </div>;
+  }
+}
 
-  return <div>
-    <label className="label" htmlFor="name">{labelText}</label>
-    <input id="name" type="text" />
-    <button style={{ backgroundColor: 'blue', color: 'white' }}>
-      {button.text}
-    </button>
-  </div>;
-};
-
-// Take the component and show it on the screen
-ReactDOM.render(
-  <App />,
-  document.querySelector('#root')
-);
+ReactDOM.render(<App />, document.querySelector('#root'));
