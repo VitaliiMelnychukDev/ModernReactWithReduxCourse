@@ -1,32 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import SearchBar from './SearchBar';
-import VideoList from './VideoList';
-import VideoDetail from './VideoDetail';
-import useVideos from '../hooks/useVideos';
+import React from 'react';
+import UserCreate from './UserCreate';
+import LanguageContext from '../contexts/LanguageContext';
+import ColorContext from '../contexts/ColorContext';
 
-const App = () => {
-  const [selectedVideo, setSelectedVideo] = useState(null);
-  const [videos, search] = useVideos('buildings');
+class App extends React.Component {
+  state = { language: 'english' };
 
-  useEffect(() => {
-    setSelectedVideo(videos[0]);
-  }, [videos]);
+  onLanguageChange = language => {
+    this.setState({ language });
+  };
 
-  return (
-    <div className="ui container">
-      <SearchBar onFormSubmit={search} />
-      <div className="ui grid">
-        <div className="ui row">
-          <div className="eleven wide column">
-            <VideoDetail video={selectedVideo} />
-          </div>
-          <div className="five wide column">
-            <VideoList onVideoSelect={setSelectedVideo} videos={videos} />
-          </div>
+  render() {
+    return (
+      <div className="ui container">
+        <div>
+          Select a language:
+          <i
+            className="flag us"
+            onClick={() => this.onLanguageChange('english')}
+          />
+          <i
+            className="flag nl"
+            onClick={() => this.onLanguageChange('dutch')}
+          />
         </div>
+
+        <ColorContext.Provider value="red">
+          <LanguageContext.Provider value={this.state.language}>
+            <UserCreate />
+          </LanguageContext.Provider>
+        </ColorContext.Provider>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default App;
